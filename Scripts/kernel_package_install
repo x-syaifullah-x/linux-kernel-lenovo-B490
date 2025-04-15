@@ -1,0 +1,17 @@
+#!/bin/bash
+
+_packages=(
+	make
+	gcc
+	libc-dev
+	libncurses-dev
+	flex
+	bison
+	libelf-dev
+	libssl-dev
+	openssl
+	bc
+	lz4
+	tzdata
+)
+apt install --no-install-suggests --no-install-recommends ${_packages[@]}

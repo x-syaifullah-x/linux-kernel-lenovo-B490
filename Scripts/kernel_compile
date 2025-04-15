@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export KBUILD_BUILD_TIMESTAMP=$(date "+%a, %d %b %Y %T %Z")
+export KBUILD_BUILD_USER="xxx"
+export KBUILD_BUILD_HOST="x-host"
+
+export KCFLAGS="-march=native -mtune=native"
+
+make HOSTCC="gcc" CC="gcc" --jobs=$(nproc)
