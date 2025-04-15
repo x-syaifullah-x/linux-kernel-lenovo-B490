@@ -1,0 +1,8 @@
+#!/bin/bash
+
+_packages=(
+	gcc libc-dev
+	make libncurses-dev flex bison
+	pahole #BPF
+)
+apt install --no-install-suggests --no-install-recommends ${_packages[@]}

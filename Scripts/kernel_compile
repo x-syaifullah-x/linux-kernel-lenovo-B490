@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CONFIG_KERNEL=$(grep -E "CONFIG_KERNEL_(LZ4|XZ)=y" .config)
+
+_packages=(
+	libelf-dev
+	libssl-dev
+	openssl
+	bc
+	$([ $CONFIG_KERNEL = CONFIG_KERNEL_XZ=y ] && echo "xz-utils")
+	$([ $CONFIG_KERNEL = CONFIG_KERNEL_LZ4=y ] && echo "lz4")
+	$([ $CONFIG_KERNEL = CONFIG_KERNEL_ZSTD=y ] && echo "zstd")
+	tzdata
+)
+
+apt install --no-install-suggests --no-install-recommends ${_packages[@]}
+
+dpkg-reconfigure tzdata
+
+export KBUILD_BUILD_TIMESTAMP=$(date "+%a, %d %b %Y %T %Z")
+export KBUILD_BUILD_USER="xxx"
+export KBUILD_BUILD_HOST="x-host"
+
+export KCFLAGS="-march=native -mtune=native -pipe"
+
+make HOSTCC="gcc" CC="gcc" --jobs=$(nproc)
